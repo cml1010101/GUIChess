@@ -23,9 +23,12 @@ namespace chess
     };
     class HostBot : public Bot
     {
+    private:
+        GtkWidget* canvas;
     public:
         HostBot();
         Move* findMove(Board* board);
+        void handlePrint(Board* board);
     };
     class ClientBot : public Bot
     {

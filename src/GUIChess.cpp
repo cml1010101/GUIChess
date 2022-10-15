@@ -67,6 +67,7 @@ ClientBot::ClientBot()
 extern char _binary_res_window_glade_start;
 extern char _binary_res_window_glade_size;
 Game* gameReference;
+
 void draw(GtkWidget* widget, cairo_t* cairo, gpointer data)
 {
     if (gameReference == NULL) return;
@@ -86,7 +87,6 @@ void draw(GtkWidget* widget, cairo_t* cairo, gpointer data)
             }
             color = !color;
             cairo_fill(cairo);
-            cairo_save(cairo);
             if (gameReference->getCurrentBoard()->grid[7 - i][j])
             {
                 cairo_surface_t* surface;
@@ -157,7 +157,7 @@ HostBot::HostBot()
     gtk_builder_add_from_string(builder, (char*)&_binary_res_window_glade_start, 
         (size_t)&_binary_res_window_glade_size, NULL);
     GtkWidget* window = GTK_WIDGET(gtk_builder_get_object(builder, "window"));
-    GtkWidget* canvas = GTK_WIDGET(gtk_builder_get_object(builder, "canvas"));
+    canvas = GTK_WIDGET(gtk_builder_get_object(builder, "canvas"));
     gtk_window_set_title(GTK_WINDOW(window), "GChess");
     g_signal_connect(GTK_WINDOW(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
     g_signal_connect(GTK_DRAWING_AREA(canvas), "draw", G_CALLBACK(draw), NULL);
@@ -185,6 +185,10 @@ Move* HostBot::findMove(Board* board)
         return findMove(board);
     }
     return move;
+}
+void HostBot::handlePrint(Board* board)
+{
+    gtk_widget_queue_draw(canvas);
 }
 Move* ClientBot::findMove(Board* board)
 {
