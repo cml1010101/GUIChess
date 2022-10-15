@@ -8,6 +8,7 @@ using namespace boost::program_options;
 using namespace std;
 using namespace chess;
 const string cols = "ABCDEFGH";
+thread async;
 ClientBot::ClientBot()
 {
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -68,6 +69,7 @@ extern char _binary_res_window_glade_size;
 Game* gameReference;
 void draw(GtkWidget* widget, cairo_t* cairo, gpointer data)
 {
+    if (gameReference == NULL) return;
     bool color = false;
     for (size_t i = 0; i < 8; i++)
     {
@@ -82,7 +84,9 @@ void draw(GtkWidget* widget, cairo_t* cairo, gpointer data)
             {
                 cairo_set_source_rgb(cairo, 0.545, 0.271, 0.075);
             }
+            color = !color;
             cairo_fill(cairo);
+            cairo_save(cairo);
             if (gameReference->getCurrentBoard()->grid[7 - i][j])
             {
                 cairo_surface_t* surface;
@@ -144,6 +148,7 @@ void draw(GtkWidget* widget, cairo_t* cairo, gpointer data)
                 cairo_paint(cairo);
             }
         }
+        color = !color;
     }
 }
 HostBot::HostBot()
@@ -152,9 +157,12 @@ HostBot::HostBot()
     gtk_builder_add_from_string(builder, (char*)&_binary_res_window_glade_start, 
         (size_t)&_binary_res_window_glade_size, NULL);
     GtkWidget* window = GTK_WIDGET(gtk_builder_get_object(builder, "window"));
-    gtk_widget_show_all(window);
-    g_sign
-    gtk_main();
+    GtkWidget* canvas = GTK_WIDGET(gtk_builder_get_object(builder, "canvas"));
+    gtk_window_set_title(GTK_WINDOW(window), "GChess");
+    g_signal_connect(GTK_WINDOW(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
+    g_signal_connect(GTK_DRAWING_AREA(canvas), "draw", G_CALLBACK(draw), NULL);
+    gtk_widget_show(window);
+    async = thread(gtk_main);
 }
 Move* HostBot::findMove(Board* board)
 {
@@ -369,6 +377,7 @@ int main(int argc, char const *argv[])
     variables_map vm;
     store(parse_command_line(argc, argv, desc), vm);
     notify(vm);
+    int ret;
     if (vm.count("help"))
     {
         cout << desc << endl;
@@ -376,15 +385,17 @@ int main(int argc, char const *argv[])
     }
     if (vm.count("host"))
     {
-        return hostChessGame(vm["white"].as<string>(), vm["black"].as<string>());
+        ret = hostChessGame(vm["white"].as<string>(), vm["black"].as<string>());
     }
     else if (vm.count("connect"))
     {
-        return connectChessGame(vm["connect"].as<string>().c_str());
+        ret = connectChessGame(vm["connect"].as<string>().c_str());
     }
     else
     {
         cout << "Not supported yet." << endl;
         exit(1);
     }
+    if (async.joinable()) async.join();
+    return ret;
 }
