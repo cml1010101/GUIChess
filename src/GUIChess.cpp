@@ -79,8 +79,8 @@ int main(int argc, char const *argv[])
     desc.add_options()
         ("help", "produce help message")
         ("host,h", "host a game of chess")
-        ("connect,c", value<string>(), "connect to a game of chess")
-        ("view,v", value<string>(), "view a game of chess")
+        ("connect,c", value<string>()->default_value("localhost"), "connect to a game of chess")
+        ("view,v", value<string>()->default_value("localhost"), "view a game of chess")
         ("white,W", value<string>()->default_value("host"), "set up the white bot")
         ("black,B", value<string>()->default_value("client"), "set up the black bot")
     ;
@@ -103,6 +103,7 @@ int main(int argc, char const *argv[])
     }
     else
     {
+        ret = 1;
     }
     return ret;
 }
