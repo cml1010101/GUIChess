@@ -1,7 +1,7 @@
 GLADE_SRCS = $(wildcard res/*.glade)
 GLADE_OBJS = ${GLADE_SRCS:.glade=.o}
 PNG_SRCS = $(wildcard res/*.png)
-PNG_OBJS = ${SVG_SRCS:.png=.o}
+PNG_OBJS = ${PNG_SRCS:.png=.o}
 SRCS = $(wildcard src/*.cpp)
 OBJS = ${SRCS:.cpp=.o}
 all: ${OBJS} ${GLADE_OBJS} ${PNG_OBJS}
