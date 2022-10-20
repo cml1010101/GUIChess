@@ -1,3 +1,4 @@
 gchess
 *.o
 *.glade~
+*.pgn
