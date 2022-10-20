@@ -44,6 +44,10 @@ int hostChessGame(string whiteBotQuery, string blackBotQuery)
     {
         whiteBot = new MinimaxBot(2);
     }
+    else if (whiteBotQuery == "neural")
+    {
+        whiteBot = new NeuralBot();
+    }
     if (blackBotQuery == "host")
     {
         blackBot = new HostBot();
@@ -60,6 +64,10 @@ int hostChessGame(string whiteBotQuery, string blackBotQuery)
     {
         blackBot = new MinimaxBot(2);
     }
+    else if (blackBotQuery == "neural")
+    {
+        blackBot = new NeuralBot();
+    }
     Game game = Game(whiteBot, blackBot);
     gameReference = &game;
     while (game.getCurrentBoard()->winner == -1)
@@ -72,6 +80,17 @@ int hostChessGame(string whiteBotQuery, string blackBotQuery)
     blackBot->handleWinner(game.getCurrentBoard()->winner);
     return 0;
 }
+int trainNeuralBot(string datasetPath)
+{
+    ifstream dataset(datasetPath);
+    while (!dataset.eof())
+    {
+        Game game;
+        dataset >> game;
+        cout << *game.getCurrentBoard() << endl;
+    }
+    return 0;
+}
 int main(int argc, char const *argv[])
 {
     gtk_init(&argc, (char***)&argv);
@@ -79,10 +98,11 @@ int main(int argc, char const *argv[])
     desc.add_options()
         ("help", "produce help message")
         ("host,h", "host a game of chess")
-        ("connect,c", value<string>()->default_value("localhost"), "connect to a game of chess")
-        ("view,v", value<string>()->default_value("localhost"), "view a game of chess")
+        ("connect,c", value<string>(), "connect to a game of chess")
+        ("view,v", value<string>(), "view a game of chess")
         ("white,W", value<string>()->default_value("host"), "set up the white bot")
         ("black,B", value<string>()->default_value("client"), "set up the black bot")
+        ("train", value<string>(), "train neural bot on dataset (PGN format)")
     ;
     variables_map vm;
     store(parse_command_line(argc, argv, desc), vm);
@@ -100,6 +120,10 @@ int main(int argc, char const *argv[])
     else if (vm.count("connect"))
     {
         ret = connectChessGame(vm["connect"].as<string>().c_str());
+    }
+    else if (vm.count("train"))
+    {
+        ret = trainNeuralBot(vm["train"].as<string>());
     }
     else
     {
