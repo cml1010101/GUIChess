@@ -25,6 +25,7 @@ namespace chess
     class HostBot : public Bot
     {
     private:
+        GtkWidget* window;
         GtkWidget* canvas;
         GtkWidget* leftBox;
         GtkWidget* rightBox;
@@ -38,6 +39,7 @@ namespace chess
         HostBot();
         Move* findMove(Board* board);
         void handlePrint(Board* board);
+        void handleWinner(Winner winner);
         void setPlayer(Player player);
         void setGameReference(Game* gameReference);
         void draw(cairo_t* cairo);
@@ -54,6 +56,7 @@ namespace chess
         Move* findMove(Board* board);
         void handlePrint(Board* board);
         void handleWinner(int winner);
+        void handleMove(Move* move, Board* board);
         void setPlayer(Player player);
         void setGameReference(Game* gameReference);
     };

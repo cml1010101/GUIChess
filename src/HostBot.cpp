@@ -27,7 +27,7 @@ HostBot::HostBot()
     GtkBuilder* builder = gtk_builder_new();
     gtk_builder_add_from_string(builder, (char*)&_binary_res_window_glade_start, 
         (size_t)&_binary_res_window_glade_size, NULL);
-    GtkWidget* window = GTK_WIDGET(gtk_builder_get_object(builder, "window"));
+    window = GTK_WIDGET(gtk_builder_get_object(builder, "window"));
     canvas = GTK_WIDGET(gtk_builder_get_object(builder, "canvas"));
     rightBox = GTK_WIDGET(gtk_builder_get_object(builder, "rightBox"));
     leftBox = GTK_WIDGET(gtk_builder_get_object(builder, "leftBox"));
@@ -193,7 +193,29 @@ void HostBot::handleMove(Move* move, Board* board)
     auto item = gtk_label_new(move->toSAN(board).c_str());
     auto row = gtk_list_box_row_new();
     auto box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
-    gtk_container_add(GTK_CONTAINER(box), item);
+    g_object_set(box, "margin-start", 10, "margin-end", 10, NULL);
+    gtk_container_add_with_properties(GTK_CONTAINER(box), item, "expand", TRUE, NULL);
     gtk_container_add(GTK_CONTAINER(row), box);
     gtk_list_box_insert(GTK_LIST_BOX(((player == board->next) ? leftBox : rightBox)), row, -1);
+    gtk_widget_show_all(((player == board->next) ? leftBox : rightBox));
+}
+void HostBot::handleWinner(Winner winner)
+{
+    GtkWidget* message = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL, 
+        GTK_MESSAGE_INFO, GTK_BUTTONS_OK, "Game Over");
+    string winnerStr = "None";
+    switch (winner)
+    {
+    case WINNER_BLACK:
+        winnerStr = "Winner: Black";
+        break;
+    case WINNER_WHITE:
+        winnerStr = "Winner: White";
+        break;
+    case WINNER_DRAW:
+        winnerStr = "Game resulted in a draw";
+    }
+    gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(message), winnerStr.c_str());
+    gtk_window_close(GTK_WINDOW(window));
+    gtk_dialog_run(GTK_DIALOG(message));
 }

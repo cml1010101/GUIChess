@@ -172,6 +172,8 @@ int connectChessGame(const char* hostName)
         (size_t)&_binary_res_window_glade_size, NULL);
     GtkWidget* window = GTK_WIDGET(gtk_builder_get_object(builder, "window"));
     canvas = GTK_WIDGET(gtk_builder_get_object(builder, "canvas"));
+    GtkWidget* leftBox = GTK_WIDGET(gtk_builder_get_object(builder, "leftBox"));
+    GtkWidget* rightBox = GTK_WIDGET(gtk_builder_get_object(builder, "rightBox"));
     gtk_window_set_title(GTK_WINDOW(window), "GChess");
     g_signal_connect(GTK_WINDOW(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
     g_signal_connect(GTK_DRAWING_AREA(canvas), "button-press-event", 
@@ -209,11 +211,28 @@ int connectChessGame(const char* hostName)
         {
             read(sockfd, buffer, 15);
             cout << "Winner is " << buffer << endl;
+            GtkWidget* message = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL, 
+                GTK_MESSAGE_INFO, GTK_BUTTONS_OK, "Game Over");
+            gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(message), buffer);
+            gtk_window_close(GTK_WINDOW(window));
+            gtk_dialog_run(GTK_DIALOG(message));
             break;
         }
         else if (cmd == "set_player")
         {
             read(sockfd, &player, sizeof(Player));
+        }
+        else if (cmd == "move")
+        {
+            read(sockfd, buffer, 15);
+            auto item = gtk_label_new(buffer);
+            auto row = gtk_list_box_row_new();
+            auto box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
+            g_object_set(box, "margin-start", 10, "margin-end", 10, NULL);
+            gtk_container_add_with_properties(GTK_CONTAINER(box), item, "expand", TRUE, NULL);
+            gtk_container_add(GTK_CONTAINER(row), box);
+            gtk_list_box_insert(GTK_LIST_BOX(((player == board->next) ? leftBox : rightBox)), row, -1);
+            gtk_widget_show_all(((player == board->next) ? leftBox : rightBox));
         }
     }
     close(sockfd);

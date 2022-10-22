@@ -115,3 +115,12 @@ void ClientBot::setGameReference(Game* gameReference)
 {
     this->gameReference = gameReference;
 }
+void ClientBot::handleMove(Move* move, Board* board)
+{
+    char buffer[16];
+    memcpy(buffer, "move", 5);
+    write(newsockfd, buffer, 15);
+    string moveStr = move->toSAN(board);
+    memcpy(buffer, moveStr.c_str(), moveStr.length() + 1);
+    write(newsockfd, buffer, 15);
+}
