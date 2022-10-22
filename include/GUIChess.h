@@ -26,6 +26,8 @@ namespace chess
     {
     private:
         GtkWidget* canvas;
+        GtkWidget* leftBox;
+        GtkWidget* rightBox;
         Game* gameReference = NULL;
         volatile Move* moveSuggestion;
         std::thread async;
@@ -40,6 +42,7 @@ namespace chess
         void setGameReference(Game* gameReference);
         void draw(cairo_t* cairo);
         void handleButtonPress(GdkEventButton* event);
+        void handleMove(Move* move, Board* board);
     };
     class ClientBot : public Bot
     {

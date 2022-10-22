@@ -29,6 +29,8 @@ HostBot::HostBot()
         (size_t)&_binary_res_window_glade_size, NULL);
     GtkWidget* window = GTK_WIDGET(gtk_builder_get_object(builder, "window"));
     canvas = GTK_WIDGET(gtk_builder_get_object(builder, "canvas"));
+    rightBox = GTK_WIDGET(gtk_builder_get_object(builder, "rightBox"));
+    leftBox = GTK_WIDGET(gtk_builder_get_object(builder, "leftBox"));
     gtk_window_set_title(GTK_WINDOW(window), "GChess");
     g_signal_connect(GTK_WINDOW(window), "destroy", G_CALLBACK(quit), NULL);
     g_signal_connect(GTK_DRAWING_AREA(canvas), "button-press-event", 
@@ -184,4 +186,14 @@ void HostBot::draw(cairo_t* cairo)
             cairo_fill(cairo);
         }
     }
+}
+void HostBot::handleMove(Move* move, Board* board)
+{
+    cout << move->toSAN(board) << endl;
+    auto item = gtk_label_new(move->toSAN(board).c_str());
+    auto row = gtk_list_box_row_new();
+    auto box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
+    gtk_container_add(GTK_CONTAINER(box), item);
+    gtk_container_add(GTK_CONTAINER(row), box);
+    gtk_list_box_insert(GTK_LIST_BOX(((player == board->next) ? leftBox : rightBox)), row, -1);
 }
