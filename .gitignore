@@ -2,3 +2,4 @@ gchess
 *.o
 *.glade~
 *.pgn
+*.dat

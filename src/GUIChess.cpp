@@ -80,14 +80,21 @@ int hostChessGame(string whiteBotQuery, string blackBotQuery)
     blackBot->handleWinner(game.getCurrentBoard()->winner);
     return 0;
 }
-int trainNeuralBot(string datasetPath)
+int trainNeuralBot(string datasetPath, int size)
 {
     ifstream dataset(datasetPath);
-    while (!dataset.eof())
+    for (int i = 0; i < size; i++)
     {
-        Game game;
-        dataset >> game;
-        cout << *game.getCurrentBoard() << endl;
+        try
+        {
+            Game game;
+            dataset >> game;
+            cout << *game.getCurrentBoard() << endl;
+        }
+        catch (exception e)
+        {
+            cout << e.what() << endl;
+        }
     }
     return 0;
 }
@@ -103,6 +110,7 @@ int main(int argc, char const *argv[])
         ("white,W", value<string>()->default_value("host"), "set up the white bot")
         ("black,B", value<string>()->default_value("client"), "set up the black bot")
         ("train", value<string>(), "train neural bot on dataset (PGN format)")
+        ("train-size", value<int>(), "neural bot train size")
     ;
     variables_map vm;
     store(parse_command_line(argc, argv, desc), vm);
@@ -123,7 +131,7 @@ int main(int argc, char const *argv[])
     }
     else if (vm.count("train"))
     {
-        ret = trainNeuralBot(vm["train"].as<string>());
+        ret = trainNeuralBot(vm["train"].as<string>(), vm["train-size"].as<int>());
     }
     else
     {
