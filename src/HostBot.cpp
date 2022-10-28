@@ -116,22 +116,22 @@ void HostBot::draw(cairo_t* cairo)
                     switch (type)
                     {
                     case PIECE_PAWN:
-                        surface = cairo_image_surface_create_from_png("res/wP.png");
+                        surface = cairo_image_surface_create_from_png("/usr/share/wP.png");
                         break;
                     case PIECE_ROOK:
-                        surface = cairo_image_surface_create_from_png("res/wR.png");
+                        surface = cairo_image_surface_create_from_png("/usr/share/wR.png");
                         break;
                     case PIECE_KNIGHT:
-                        surface = cairo_image_surface_create_from_png("res/wN.png");
+                        surface = cairo_image_surface_create_from_png("/usr/share/wN.png");
                         break;
                     case PIECE_BISHOP:
-                        surface = cairo_image_surface_create_from_png("res/wB.png");
+                        surface = cairo_image_surface_create_from_png("/usr/share/wB.png");
                         break;
                     case PIECE_QUEEN:
-                        surface = cairo_image_surface_create_from_png("res/wQ.png");
+                        surface = cairo_image_surface_create_from_png("/usr/share/wQ.png");
                         break;
                     case PIECE_KING:
-                        surface = cairo_image_surface_create_from_png("res/wK.png");
+                        surface = cairo_image_surface_create_from_png("/usr/share/wK.png");
                         break;
                     default:
                         break;
@@ -142,22 +142,22 @@ void HostBot::draw(cairo_t* cairo)
                     switch (type)
                     {
                     case PIECE_PAWN:
-                        surface = cairo_image_surface_create_from_png("res/bP.png");
+                        surface = cairo_image_surface_create_from_png("/usr/share/bP.png");
                         break;
                     case PIECE_ROOK:
-                        surface = cairo_image_surface_create_from_png("res/bR.png");
+                        surface = cairo_image_surface_create_from_png("/usr/share/bR.png");
                         break;
                     case PIECE_KNIGHT:
-                        surface = cairo_image_surface_create_from_png("res/bN.png");
+                        surface = cairo_image_surface_create_from_png("/usr/share/bN.png");
                         break;
                     case PIECE_BISHOP:
-                        surface = cairo_image_surface_create_from_png("res/bB.png");
+                        surface = cairo_image_surface_create_from_png("/usr/share/bB.png");
                         break;
                     case PIECE_QUEEN:
-                        surface = cairo_image_surface_create_from_png("res/bQ.png");
+                        surface = cairo_image_surface_create_from_png("/usr/share/bQ.png");
                         break;
                     case PIECE_KING:
-                        surface = cairo_image_surface_create_from_png("res/bK.png");
+                        surface = cairo_image_surface_create_from_png("/usr/share/bK.png");
                         break;
                     default:
                         break;

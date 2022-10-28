@@ -3,3 +3,4 @@ gchess
 *.glade~
 *.pgn
 *.dat
+*.deb

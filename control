@@ -1,0 +1,5 @@
+Package: guichess
+Version: 1.0
+Maintainer: cml1010101
+Architecture: amd64
+Description: A GUI Chess app in C++
