@@ -116,22 +116,22 @@ void HostBot::draw(cairo_t* cairo)
                     switch (type)
                     {
                     case PIECE_PAWN:
-                        surface = cairo_image_surface_create_from_png("/usr/share/wP.png");
+                        surface = cairo_image_surface_create_from_png("/usr/share/gchess/wP.png");
                         break;
                     case PIECE_ROOK:
-                        surface = cairo_image_surface_create_from_png("/usr/share/wR.png");
+                        surface = cairo_image_surface_create_from_png("/usr/share/gchess/wR.png");
                         break;
                     case PIECE_KNIGHT:
-                        surface = cairo_image_surface_create_from_png("/usr/share/wN.png");
+                        surface = cairo_image_surface_create_from_png("/usr/share/gchess/wN.png");
                         break;
                     case PIECE_BISHOP:
-                        surface = cairo_image_surface_create_from_png("/usr/share/wB.png");
+                        surface = cairo_image_surface_create_from_png("/usr/share/gchess/wB.png");
                         break;
                     case PIECE_QUEEN:
-                        surface = cairo_image_surface_create_from_png("/usr/share/wQ.png");
+                        surface = cairo_image_surface_create_from_png("/usr/share/gchess/wQ.png");
                         break;
                     case PIECE_KING:
-                        surface = cairo_image_surface_create_from_png("/usr/share/wK.png");
+                        surface = cairo_image_surface_create_from_png("/usr/share/gchess/wK.png");
                         break;
                     default:
                         break;
@@ -142,22 +142,22 @@ void HostBot::draw(cairo_t* cairo)
                     switch (type)
                     {
                     case PIECE_PAWN:
-                        surface = cairo_image_surface_create_from_png("/usr/share/bP.png");
+                        surface = cairo_image_surface_create_from_png("/usr/share/gchess/bP.png");
                         break;
                     case PIECE_ROOK:
-                        surface = cairo_image_surface_create_from_png("/usr/share/bR.png");
+                        surface = cairo_image_surface_create_from_png("/usr/share/gchess/bR.png");
                         break;
                     case PIECE_KNIGHT:
-                        surface = cairo_image_surface_create_from_png("/usr/share/bN.png");
+                        surface = cairo_image_surface_create_from_png("/usr/share/gchess/bN.png");
                         break;
                     case PIECE_BISHOP:
-                        surface = cairo_image_surface_create_from_png("/usr/share/bB.png");
+                        surface = cairo_image_surface_create_from_png("/usr/share/gchess/bB.png");
                         break;
                     case PIECE_QUEEN:
-                        surface = cairo_image_surface_create_from_png("/usr/share/bQ.png");
+                        surface = cairo_image_surface_create_from_png("/usr/share/gchess/bQ.png");
                         break;
                     case PIECE_KING:
-                        surface = cairo_image_surface_create_from_png("/usr/share/bK.png");
+                        surface = cairo_image_surface_create_from_png("/usr/share/gchess/bK.png");
                         break;
                     default:
                         break;
