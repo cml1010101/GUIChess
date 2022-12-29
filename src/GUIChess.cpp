@@ -91,9 +91,8 @@ int trainNeuralBot(string datasetPath, int size)
             dataset >> game;
             cout << *game.getCurrentBoard() << endl;
         }
-        catch (exception e)
+        catch (...)
         {
-            cout << e.what() << endl;
         }
     }
     return 0;
